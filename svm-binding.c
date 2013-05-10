@@ -81,7 +81,7 @@ void destroy_problem_set(svm_problem_set *problem_set){
     dataset_node = dataset_node->node;
     destroy_dataset(dataset_last_node);
   }
-  destroy_dataset(dataset_node);
+  free(dataset_node); //Last Node doesn't need destroy_dataset since it's not a real node
   if(problem_set->x_space != NULL){
     free(problem_set->x_space);
   }
@@ -211,7 +211,6 @@ struct svm_model* train(svm_problem_set *problem_set, struct svm_parameter *para
   }
   svm_check_parameter(problem_set->prob, param);
   struct svm_model *model = svm_train(problem_set->prob, param);
-//  free(x_space);
   return model;
 }
 

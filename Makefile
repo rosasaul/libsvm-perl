@@ -13,13 +13,14 @@
 
 
 CC=g++
-CFLAGS_LIB=-Wall -Wconversion -03 -fPIC -c -I`perl -e 'use Config; print \$Config{archlib};'`/CORE
+CFLAGS_LIB=-Wall -Wconversion -fPIC -c -I/usr/lib/perl/5.14.2/CORE
+#`perl -e 'use Config; print \$Config{archlib};'`/CORE
 CFLAGS_SHARED=-shared
 
-libsvm-perl.so:swig-binding.i swig-binding.h svm-binding.h svm-binding.c svm.h svm.cpp
+libsvm-perl.so:swig-binding.i svm-binding.c svm.cpp
 	swig -perl swig-binding.i
 	$(CC) $(CFLAGS_LIB) svm-binding.c swig-binding_wrap.c svm.cpp
-	$(CC) $(CFLAGS_SHARED) svm-binding.o swig-binding_wrap.o svm.o -o libsvm-perl.so
+	$(CC) $(CFLAGS_SHARED) svm-binding.o swig-binding_wrap.o svm.o -o libsvm.so
 
 clean:
 	rm -rf *.o *.so swig-binding_wrap.c
