@@ -158,7 +158,9 @@ double predict(struct svm_model *model, svm_dataset *dataset){
     x_item = x_item->node;
   }
   x[i].index = -1;
-  return svm_predict(model,x);
+  double y = svm_predict(model,x);
+  free(x);
+  return y;
 }
 struct svm_model *load_model(char *model_file_name){
   return svm_load_model(model_file_name);
