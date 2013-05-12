@@ -3,9 +3,11 @@
 #include <string.h>
 #include <ctype.h>
 #include <errno.h>
+#include <malloc.h>
 #include "svm.h"
 #include "svm-binding.h"
 #define Malloc(type,n) (type *)malloc((n)*sizeof(type))
+
 
 //Binding Functions
 struct svm_parameter* new_param() {
@@ -30,6 +32,7 @@ struct svm_parameter* new_param() {
 }
 void destroy_param(struct svm_parameter *param){
   free(param);
+  malloc_trim(0);
 }
 void set_svm_type(struct svm_parameter *param, int svm_type){
   param->svm_type = svm_type;
@@ -62,6 +65,7 @@ struct svm_problem* new_problem() {
 }
 void destroy_problem(struct svm_problem *prob){
   free(prob);
+  malloc_trim(0);
 }
 svm_problem_set* new_problem_set(){
   svm_problem_set *problem_set = Malloc(svm_problem_set,1);
@@ -87,6 +91,7 @@ void destroy_problem_set(svm_problem_set *problem_set){
   }
   free(problem_set->prob);
   free(problem_set);
+  malloc_trim(0);
 }
 
 svm_dataset* new_dataset(double label){
@@ -107,6 +112,7 @@ void destroy_dataset(svm_dataset *dataset){
   }
   free(x_item_node);
   free(dataset);
+  malloc_trim(0);
 }
 void set_attribute(svm_dataset *dataset, int index, double value){
   svm_x_item *x_item_node = dataset->x_item;
@@ -160,6 +166,7 @@ struct svm_model *load_model(char *model_file_name){
 
 void destroy_model(struct svm_model *model){
   svm_free_and_destroy_model(&model);
+  malloc_trim(0);
 }
 
 void save_model_file(char *model_file_name, struct svm_model *model){
