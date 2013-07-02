@@ -116,7 +116,7 @@ void destroy_dataset(svm_dataset *dataset){
 }
 void set_attribute(svm_dataset *dataset, int index, double value){
   svm_x_item *x_item_node = dataset->x_item;
-  while(x_item_node->last != -1 && x_item_node->index > index){
+  while(x_item_node->last != -1 && x_item_node->index < index){
     x_item_node = x_item_node->node;
   }
   if(x_item_node->last == -1){
