@@ -35,7 +35,7 @@ void destroy_param(struct svm_parameter *param){
   malloc_trim(0);
 }
 void set_weight(struct svm_parameter *param, int label, double weight){
-  param->nr_weight;
+  param->nr_weight++;
   param->weight_label = (int *)realloc(param->weight_label,sizeof(int)*param->nr_weight);
   param->weight = (double *)realloc(param->weight,sizeof(double)*param->nr_weight);
   param->weight_label[param->nr_weight-1] = label;
