@@ -1807,6 +1807,53 @@ XS(_wrap_destroy_param) {
 }
 
 
+XS(_wrap_set_weight) {
+  {
+    struct svm_parameter *arg1 = (struct svm_parameter *) 0 ;
+    int arg2 ;
+    double arg3 ;
+    void *argp1 = 0 ;
+    int res1 = 0 ;
+    int val2 ;
+    int ecode2 = 0 ;
+    double val3 ;
+    int ecode3 = 0 ;
+    int argvi = 0;
+    dXSARGS;
+    
+    if ((items < 3) || (items > 3)) {
+      SWIG_croak("Usage: set_weight(param,label,weight);");
+    }
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_svm_parameter, 0 |  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "set_weight" "', argument " "1"" of type '" "struct svm_parameter *""'"); 
+    }
+    arg1 = (struct svm_parameter *)(argp1);
+    ecode2 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
+    if (!SWIG_IsOK(ecode2)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "set_weight" "', argument " "2"" of type '" "int""'");
+    } 
+    arg2 = (int)(val2);
+    ecode3 = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(2), &val3);
+    if (!SWIG_IsOK(ecode3)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "set_weight" "', argument " "3"" of type '" "double""'");
+    } 
+    arg3 = (double)(val3);
+    set_weight(arg1,arg2,arg3);
+    ST(argvi) = sv_newmortal();
+    
+    
+    
+    XSRETURN(argvi);
+  fail:
+    
+    
+    
+    SWIG_croak_null();
+  }
+}
+
+
 XS(_wrap_set_svm_type) {
   {
     struct svm_parameter *arg1 = (struct svm_parameter *) 0 ;
@@ -2552,6 +2599,7 @@ static swig_variable_info swig_variables[] = {
 static swig_command_info swig_commands[] = {
 {"libsvmc::new_param", _wrap_new_param},
 {"libsvmc::destroy_param", _wrap_destroy_param},
+{"libsvmc::set_weight", _wrap_set_weight},
 {"libsvmc::set_svm_type", _wrap_set_svm_type},
 {"libsvmc::set_kernel_type", _wrap_set_kernel_type},
 {"libsvmc::set_degree", _wrap_set_degree},

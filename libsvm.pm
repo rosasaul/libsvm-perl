@@ -51,6 +51,7 @@ package libsvm;
 
 *new_param = *libsvmc::new_param;
 *destroy_param = *libsvmc::destroy_param;
+*set_weight = *libsvmc::set_weight;
 *set_svm_type = *libsvmc::set_svm_type;
 *set_kernel_type = *libsvmc::set_kernel_type;
 *set_degree = *libsvmc::set_degree;

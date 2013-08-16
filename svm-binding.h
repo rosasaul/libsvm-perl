@@ -28,6 +28,7 @@ typedef struct {
 //Binding Functions Definitions
 struct svm_parameter* new_param();
 void destroy_param(struct svm_parameter *param);
+void set_weight(struct svm_parameter *param, int label, double weight);
 void set_svm_type(struct svm_parameter *param, int svm_type);
 void set_kernel_type(struct svm_parameter *param, int kernel_type);
 void set_degree(struct svm_parameter *param, int degree);
