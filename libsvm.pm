@@ -63,6 +63,7 @@ package libsvm;
 *new_problem = *libsvmc::new_problem;
 *destroy_problem = *libsvmc::destroy_problem;
 *new_problem_set = *libsvmc::new_problem_set;
+*do_cross_validation = *libsvmc::do_cross_validation;
 *destroy_problem_set = *libsvmc::destroy_problem_set;
 *new_dataset = *libsvmc::new_dataset;
 *destroy_dataset = *libsvmc::destroy_dataset;

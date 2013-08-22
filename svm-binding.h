@@ -41,6 +41,7 @@ struct svm_problem* new_problem();
 void destroy_problem(struct svm_problem *prob);
 svm_problem_set* new_problem_set();
 void destroy_problem_set(svm_problem_set *problem_set);
+double do_cross_validation(svm_problem_set *problem_set, struct svm_parameter *param, double nr_fold);
 svm_dataset* new_dataset(double label);
 void destroy_dataset(svm_dataset *dataset);
 void set_attribute(svm_dataset *dataset, int index, double value);

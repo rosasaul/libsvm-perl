@@ -2213,6 +2213,54 @@ XS(_wrap_new_problem_set) {
 }
 
 
+XS(_wrap_do_cross_validation) {
+  {
+    svm_problem_set *arg1 = (svm_problem_set *) 0 ;
+    struct svm_parameter *arg2 = (struct svm_parameter *) 0 ;
+    double arg3 ;
+    void *argp1 = 0 ;
+    int res1 = 0 ;
+    void *argp2 = 0 ;
+    int res2 = 0 ;
+    double val3 ;
+    int ecode3 = 0 ;
+    int argvi = 0;
+    double result;
+    dXSARGS;
+    
+    if ((items < 3) || (items > 3)) {
+      SWIG_croak("Usage: do_cross_validation(problem_set,param,nr_fold);");
+    }
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_svm_problem_set, 0 |  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "do_cross_validation" "', argument " "1"" of type '" "svm_problem_set *""'"); 
+    }
+    arg1 = (svm_problem_set *)(argp1);
+    res2 = SWIG_ConvertPtr(ST(1), &argp2,SWIGTYPE_p_svm_parameter, 0 |  0 );
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "do_cross_validation" "', argument " "2"" of type '" "struct svm_parameter *""'"); 
+    }
+    arg2 = (struct svm_parameter *)(argp2);
+    ecode3 = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(2), &val3);
+    if (!SWIG_IsOK(ecode3)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "do_cross_validation" "', argument " "3"" of type '" "double""'");
+    } 
+    arg3 = (double)(val3);
+    result = (double)do_cross_validation(arg1,arg2,arg3);
+    ST(argvi) = SWIG_From_double  SWIG_PERL_CALL_ARGS_1((double)(result)); argvi++ ;
+    
+    
+    
+    XSRETURN(argvi);
+  fail:
+    
+    
+    
+    SWIG_croak_null();
+  }
+}
+
+
 XS(_wrap_destroy_problem_set) {
   {
     svm_problem_set *arg1 = (svm_problem_set *) 0 ;
@@ -2611,6 +2659,7 @@ static swig_command_info swig_commands[] = {
 {"libsvmc::new_problem", _wrap_new_problem},
 {"libsvmc::destroy_problem", _wrap_destroy_problem},
 {"libsvmc::new_problem_set", _wrap_new_problem_set},
+{"libsvmc::do_cross_validation", _wrap_do_cross_validation},
 {"libsvmc::destroy_problem_set", _wrap_destroy_problem_set},
 {"libsvmc::new_dataset", _wrap_new_dataset},
 {"libsvmc::destroy_dataset", _wrap_destroy_dataset},

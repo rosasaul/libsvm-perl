@@ -101,6 +101,73 @@ void destroy_problem_set(svm_problem_set *problem_set){
   malloc_trim(0);
 }
 
+double do_cross_validation(svm_problem_set *problem_set, struct svm_parameter *param, double nr_fold){
+  //Setup libsvm problem
+  problem_set->prob->y = Malloc(double,problem_set->count);
+  problem_set->prob->x = Malloc(struct svm_node *,problem_set->count);
+  problem_set->prob->l = problem_set->count;
+  int elements = 0;
+  svm_dataset *dataset_node = problem_set->dataset;
+  while(dataset_node->last != -1){
+    elements += dataset_node->count + 1;
+    dataset_node = dataset_node->node;
+  }
+  struct svm_node *x_space = Malloc(struct svm_node,elements);
+  int i; int j = 0;
+  int max_index = 0;
+  dataset_node = problem_set->dataset;
+  for(i=0; i < problem_set->count; i++){
+    problem_set->prob->x[i] = &x_space[j];
+    problem_set->prob->y[i] = dataset_node->label;
+    svm_x_item *x_item_node = dataset_node->x_item;
+    while(x_item_node->last != -1){
+      if(max_index < x_item_node->index){
+        max_index = x_item_node->index;
+      }
+      x_space[j].index = x_item_node->index;
+      x_space[j].value = x_item_node->value;
+      x_item_node = x_item_node->node;
+      j++;
+    }
+    x_space[j++].index = -1;
+    dataset_node = dataset_node->node;
+  }
+  if(param->gamma == 0 && max_index > 0){
+    param->gamma = 1.0 / max_index;
+  }
+  svm_check_parameter(problem_set->prob, param);
+
+  // Run Cross validation
+  int total_correct = 0;
+  double total_error = 0;
+  double sumv = 0, sumy = 0, sumvv = 0, sumyy = 0, sumvy = 0, accuracy = 0;
+  double *target = Malloc(double,problem_set->count);
+   
+  svm_cross_validation(problem_set->prob,param,nr_fold,target);
+  if(param->svm_type == EPSILON_SVR || param->svm_type == NU_SVR){
+    for(i=0;i < problem_set->count;i++){
+      double y = problem_set->prob->y[i];
+      double v = target[i];
+      total_error += (v-y)*(v-y);
+      sumv += v;
+      sumy += y;
+      sumvv += v*v;
+      sumyy += y*y;
+      sumvy += v*y;
+    }
+    accuracy = ((problem_set->prob->l*sumvy-sumv*sumy)*(problem_set->prob->l*sumvy-sumv*sumy)) /
+      ((problem_set->prob->l*sumvv-sumv*sumv)*(problem_set->prob->l*sumyy-sumy*sumy));
+  }
+  else{
+    for(i=0;i < problem_set->count;i++){
+      if(target[i] == problem_set->prob->y[i]){ ++total_correct; }
+    }
+    accuracy = total_correct/problem_set->prob->l;
+  }
+  free(target);
+  return accuracy;
+}
+
 svm_dataset* new_dataset(double label){
   svm_dataset *dataset = Malloc(svm_dataset,1);
   dataset->label = label;

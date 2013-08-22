@@ -15,6 +15,7 @@ extern void set_epsilon(struct svm_parameter *param, double p);
 extern struct svm_problem* new_problem();
 extern void destroy_problem(struct svm_problem *prob);
 extern svm_problem_set* new_problem_set();
+double do_cross_validation(svm_problem_set *problem_set, struct svm_parameter *param, double nr_fold);
 extern void destroy_problem_set(svm_problem_set *problem_set);
 extern svm_dataset* new_dataset(double label);
 extern void destroy_dataset(svm_dataset *dataset);
