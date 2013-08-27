@@ -145,7 +145,7 @@ double do_cross_validation(svm_problem_set *problem_set, struct svm_parameter *p
    
   svm_cross_validation(problem_set->prob,param,nr_fold,target);
   if(param->svm_type == EPSILON_SVR || param->svm_type == NU_SVR){
-    for(i=0;i < problem_set->count;i++){
+    for(i=0;i < problem_set->prob->l;i++){
       double y = problem_set->prob->y[i];
       double v = target[i];
       total_error += (v-y)*(v-y);
@@ -159,10 +159,10 @@ double do_cross_validation(svm_problem_set *problem_set, struct svm_parameter *p
       ((problem_set->prob->l*sumvv-sumv*sumv)*(problem_set->prob->l*sumyy-sumy*sumy));
   }
   else{
-    for(i=0;i < problem_set->count;i++){
+    for(i=0;i < problem_set->prob->l;i++){
       if(target[i] == problem_set->prob->y[i]){ ++total_correct; }
     }
-    accuracy = total_correct/problem_set->prob->l;
+    accuracy = (double) total_correct / (double) problem_set->prob->l;
   }
   free(target);
   return accuracy;
