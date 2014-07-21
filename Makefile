@@ -17,12 +17,15 @@ CFLAGS_LIB=-Wall -Wconversion -fPIC -c
 #`perl -e 'use Config; print \$Config{archlib};'`/CORE
 # /usr/lib/perl/5.14.2/CORE
 CFLAGS_SHARED=-shared
+PERL_CORE=$(shell echo `perl -e 'use Config; print $$Config{archlib};'`/CORE/)
+
+all: libsvm-perl.so
 
 libsvm-perl.so:swig-binding.i svm-binding.c svm.cpp
 	swig -perl swig-binding.i
 	$(CC) $(CFLAGS_LIB) svm.cpp
 	$(CC) $(CFLAGS_LIB) svm-binding.c
-	$(CC) $(CFLAGS_LIB) -I/usr/lib/perl/5.14.2/CORE swig-binding_wrap.c
+	$(CC) $(CFLAGS_LIB) -I$(PERL_CORE) swig-binding_wrap.c
 	$(CC) $(CFLAGS_SHARED) svm.o svm-binding.o swig-binding_wrap.o -o libsvm.so
 
 clean:
